@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For My Rahnuu ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: #120812;
+    color: white;
+    overflow-x: hidden;
+}
+
+.page {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    overflow-y: auto;
+
+    background:
+        radial-gradient(circle at top, #571b47 0%, #210c20 45%, #080508 100%);
+}
+
+.page.active {
+    display: flex;
+    animation: pageIn 0.7s ease;
+}
+
+@keyframes pageIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.card {
+    width: min(850px, 92vw);
+    min-height: 60vh;
+    padding: 30px 25px;
+    margin: auto 0;
+
+    border-radius: 25px;
+
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 20px 80px rgba(0,0,0,0.6);
+
+    text-align: center;
+}
+
+h1 {
+    font-size: clamp(34px, 6vw, 65px);
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-size: clamp(26px, 4.5vw, 45px);
+    margin-bottom: 18px;
+}
+
+h3 {
+    font-size: clamp(18px, 3.2vw, 24px);
+    margin-bottom: 8px;
+    color: #ffb3d1;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #f7eaf3;
+    white-space: pre-line;
+}
+
+.small {
+    font-size: 13px;
+    color: #cdbdca;
+    margin-top: 12px;
+}
+
+.heart {
+    font-size: 45px;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+button {
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    margin: 8px;
+
+    background: white;
+    color: #421536;
+
+    font-size: 15px;
+    cursor: pointer;
+
+    transition: 0.25s;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+button:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+input {
+    width: min(340px, 90%);
+
+    padding: 14px 18px;
+
+    border-radius: 50px;
+
+    border: none;
+
+    font-size: 16px;
+
+    text-align: center;
+
+    outline: none;
+}
+
+.error {
+    color: #ff9abb;
+    margin-top: 10px;
+    min-height: 22px;
+}
+
+.media {
+    width: min(650px, 95%);
+    height: 240px;
+    margin: 18px auto;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d7c8d4;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ========================= */
+/* VIDEO / SLIDESHOW PLAYER  */
+/* ========================= */
+
+.video-slideshow {
+    position: relative;
+    width: min(650px, 95%);
+    height: 380px;
+    margin: 18px auto 10px auto;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: #000;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out, transform 4s ease-out;
+    transform: scale(1.05);
+}
+
+.slide.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slideshow-controls {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    z-index: 10;
+}
+
+.play-btn {
+    background: rgba(255,255,255,0.85);
+    color: #210c20;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.dots {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 80%;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transition: 0.3s;
+}
+
+.dot.active {
+    background: #ffb3d1;
+    transform: scale(1.3);
+}
+
+.reveal {
+    display: none;
+    margin: 14px auto;
+    padding: 18px;
+    max-width: 550px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ========================= */
+/* ENVELOPE / LETTER STYLING  */
+/* ========================= */
+
+.envelope-wrapper {
+    margin: 25px auto;
+    cursor: pointer;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.envelope-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.envelope-icon {
+    font-size: 70px;
+}
+
+.letter-content {
+    display: none;
+    margin-top: 20px;
+    animation: fadeInLetter 0.8s ease forwards;
+}
+
+@keyframes fadeInLetter {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn-group {
+    margin-top: 15px;
+}
+
+.question-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+    margin-top: 20px;
+}
+
+#noBtn {
+    transition: transform 0.2s ease;
+}
+
+@media(max-width:650px) {
+    .card {
+        padding: 22px 16px;
+    }
+    p {
+        font-size: 16px;
+    }
+    .video-slideshow {
+        height: 280px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Audio Player -->
+<audio id="bg-music" src="song.mp3" loop preload="auto"></audio>
+
+<!-- ========================= -->
+<!-- PAGE 0 : COVER -->
+<!-- ========================= -->
+
+<section class="page active" id="p0">
+
+<div class="card">
+
+<div class="heart">❤️</div>
+
+<h1>For My Rahnuu</h1>
+
+<p>
+Three years of us.
+
+Three years of memories,
+smiles,
+arguments,
+forgiveness,
+and love.
+</p>
+
+<p class="small">
+27 September 2023 → 27 September 2026
+</p>
+
+<button onclick="startExperience(1)">
+Tap to begin ❤️
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- PAGE 1 : PASSWORD -->
+<!-- ========================= -->
+
+<section class="page" id="p1">
+
+<div class="card">
+
+<h2>🔐 A Little Secret</h2>
+
+<p>
+Only you are supposed to enter
+this little world.
+</p>
+
+<br>
+
+<input
+id="password"
+type="password"
+placeholder="Enter our password"
+>
+
+<div class="error" id="error"></div>
+
+<div class="btn-group">
+    <button class="btn-secondary" onclick="go(0)">← Back</button>
+    <button onclick="unlock()">Enter ❤️</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- PAGE 2 : OUR STORY -->
+<!-- ========================= -->
+
+<section class="page" id="p2">
+
+<div class="card">
+
+<h2>Our Story 📖</h2>
+
+<div class="media">
+    <img src="pic1.jpg" alt="">
+</div>
+
+<p>
+Happy Anniversary Rahnumaa, my loveeee❤️
+
+Three years... can you believe it? Sometimes it feels like our story started just yesterday, and sometimes it feels like I've known you forever. From the moment you entered my life in 2023, everything changed in the most beautiful way possible.
+
+You became more than my wifeey. You became my best friend, my safe place, my happiness, and the person I want to tell everything to. No matter how hard life gets, just knowing that you're there makes everything feel easier.
+
+And those 2023 days... ufff, they were so beautiful, weren't they? Our first meeting, our first kiss, our little moments together, and especially that cultural program of 2024. I still remember that day yarrrrr. After you left, I sat there alone imagining how many more memories we would make together in our next cultural.
+
+But life took us into a long-distance relationship, and honestly, it wasn't easy. But I never hated the distance. Because even though it kept us apart physically, it taught us patience, trust, loyalty, and showed me how strong our love truly is. Every day apart only made me love you more.
+
+The picture above is one of my favorite memories because whenever I look at it, I don't just see a photo I see us. I see our story, our laughter, our love, and all the beautiful memories we've created together.
+
+27th September will always be one of the most special days of my life, because it's the day I got you. And if I could choose again a thousand times, I would still choose you every single time.
+
+I loveeeee you so much, Rahnumaa 💗
+</p>
+
+<div class="btn-group">
+    <button class="btn-secondary" onclick="go(1)">← Back</button>
+    <button onclick="go(4)">Continue →</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- PAGE 4 : LETTER -->
+<!-- ========================= -->
+
+<section class="page" id="p4">
+
+<div class="card">
+
+<h2>💌 Open My Letter</h2>
+
+<!-- Open Letter Trigger Container -->
+<div id="letterTrigger" class="envelope-wrapper">
+    <div class="envelope-icon">✉️</div>
+    <br>
+    <button onclick="openLetter()">Open Letter ❤️</button>
+</div>
+
+<!-- Hidden Letter Content -->
+<div id="letterContent" class="letter-content">
+<p>
+My Rahnumaa ❤️,
+Sometimes I sit and think about how all of this started, and it still feels unreal to me.
+I still remember when Ayaan told me about you for the first itme. I don't know why, but the moment I heard your name, I felt something. It sounds crazy now, but I swear I did. Then a few days later we started texting, and before I even realized what was happening, I was falling for you.
+Babe, I still remember hearing your voice for the first time. I can't even explain what I felt that day. It was one of those moments that changed everything. From that call, I wanted nobody else. I only wanted you.
+You know how much I loved my friends, but I won't lie, I started hating Ayaan because I thought I could never have you. I cried, I prayed, and every single day I asked Allah for just one thing — you.
+Then slowly, you became my best friend. Those endless calls, talking for hours without getting bored, sharing every little thing about our lives, laughing together, teasing each other, and creating memories without even realizing it. I still remember when you jokingly said to come to the girls' campus and that you'd kiss me. I remember when I was just your best friend and I sent you a reel asking whether you'd choose your best friend or boyfriend, and when you chose me, I felt like the happiest person alive.
+After all the waiting, all the jealousy, all the pain and confusion, I finally got you.
+The first time you said "I love you" to meeeee.
+The first hug of ours.
+The first kiss.
+The first time I realized that the girl I dreamed about was finally mine.
+Honestly, it all felt like a dream.
+Then I got caught.
+Most people would have left. Most people would've given up. At that time our relationship was only around two months old, yet you stayed. You never complained. You never made me feel guilty. You never left my side.
+You always said, "Mahir, I'm with you."
+And you proved it every single day.
+I still remember the way you cried for me when you heard I was leaving the country.
+26 June 2024.
+The day I left Bangladesh.
+The day our long-distance journey began.
+I was terrified, Rahnuma. I genuinely thought I was going to lose you. But that's when you showed me what true love really looks like. Even from miles away, you stayed. You waited. You loved me through everything.
+I know I've hurt you many times. I've made mistakes, caused pain, and given you reasons to be upset. But somehow you still chose me. You still loved me with your whole heart.
+You taught me how to love.
+You taught me how to trust.
+You taught me how to see people for who they really are.
+You opened my eyes to the real world.
+And after everything we've been through, the only thing I know for sure is that I want you.
+Only you.
+These three years have given me some of the happiest memories of my life. Every laugh, every call, every fight we solved, every hug, every tear, and every "I love you" has become a part of me.
+If someone asked me what the best thing that ever happened in my life was, my answer would always be the same:
+It's you.
+It's my Rahnumaa.
+Thank you for loving me when I was difficult to love.
+Thank you for staying when leaving would've been easier.
+Thank you for being my best friend, my comfort, my peace, and the greatest blessing Allah ever gave me.
+And no matter how many years pass, no matter how far apart we are, my heart will always belong to you.
+Even after all these years, whenever I see your name, I still smile like the luckiest person in the world. You still give me the same butterflies, the same happiness, and the same feeling I felt when I first started falling for you.
+You are the most beautiful girl I've ever known, not only because of your face, but because of your heart. The way you love me, care for me, and stay beside me makes you more beautiful than words could ever describe.
+Sometimes I wonder what my life would have been like if I had never met you, and honestly, I don't even want to imagine it. You've become such a big part of my life that every future dream I have includes you.
+No matter where life takes us, my heart will always find its way back to you. If I had to choose again a thousand times, I would still choose you every single time.
+You are my happiness, my comfort, my peace, my favorite person, my safe place, and my everything. And every day, I thank Allah for bringing you into my life. ❤️
+Happy 3 years, my Rahnuuu.
+I loveeeee you more than you'll ever know. ❤️
+</p>
+</div>
+
+<div class="btn-group">
+    <button class="btn-secondary" onclick="go(2)">← Back</button>
+    <button onclick="go(5)">I have more to say ❤️</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- PAGE 5 : THINGS I LOVE -->
+<!-- ========================= -->
+
+<section class="page" id="p5">
+
+<div class="card">
+
+<h2>Things I Love About You 🌹</h2>
+
+<p>
+Tap the hearts one by one.
+</p>
+
+<button onclick="reveal('r1')">
+❤️ One
+</button>
+
+<button onclick="reveal('r2')">
+❤️ Two
+</button>
+
+<button onclick="reveal('r3')">
+❤️ Three
+</button>
+
+<div class="reveal" id="r1">
+<h3>Your Support</h3>
+<p>I love how you r always there for me, no matter what. You stayed, waited, and supported me through my worst days when you could'wide walked away. You make even the most worst days feel special, and knowing I have you, is blessing for me🤍</p>
+</div>
+
+<div class="reveal" id="r2">
+<h3>Your Beauty💗</h3>
+<p>I love your eyes because I could get lost in them forever, your smile because it makes my lifee more better. The way you laugh, the way you look, and all your little expressions make my heart melt every time. You're the prettiest girl in my eyes, and every single day i fall more in lovee with your beauty</p>
+</div>
+
+<div class="reveal" id="r3">
+<h3>Everything about you</h3>
+<p>There’s so much I love about you that I could never fit it all into words. To me, you're the perfect woman the one I think about before I sleep and the one I want beside me in every future memory. You make my heart feel at home, and every day feels brighter because you're in it. You're the best presence in my life, and I’ll loveeee you forever ever and ever💗</p>
+</div>
+
+<div class="btn-group">
+    <button class="btn-secondary" onclick="go(4)">← Back</button>
+    <button onclick="go(6)">Next →</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- PAGE 6 : OUR MEMORIES -->
+<!-- ========================= -->
+
+<section class="page" id="p6">
+
+<div class="card">
+
+<h2>Our Memories 📸</h2>
+
+<!-- Photo Slideshow Player -->
+<div class="video-slideshow">
+    <div class="slide active"><img src="751371104_932332069891946_570315620394122581_n.jpg" alt=""></div>
+    <div class="slide"><img src="787101729_1579646523573526_3475454130068715579_n_2.jpg" alt=""></div>
+    <div class="slide"><img src="755056089_1578353170465548_7529255124235274597_n (1).jpg" alt=""></div>
+    <div class="slide"><img src="747977879_1729595798242745_5271473990353275527_n.jpg" alt=""></div>
+    <div class="slide"><img src="754824231_1299311618739160_632390194623386695_n.jpg" alt=""></div>
+    <div class="slide"><img src="750814842_1386618329985541_1363131114518217892_n.jpg" alt=""></div>
+    <div class="slide"><img src="772559744_2044882606151106_5174995629169646885_n.jpg" alt=""></div>
+    <div class="slide"><img src="751938301_1566755708795602_3081278242136617883_n.jpg" alt=""></div>
+    <div class="slide"><img src="759802588_27627994586880651_7384061150536334088_n.jpg" alt=""></div>
+
+    <div class="slideshow-controls">
+        <button class="play-btn" id="playPauseBtn" onclick="toggleSlideshow()">⏸</button>
+        <div class="dots" id="dotsContainer"></div>
+    </div>
+</div>
+
+<p>
+Every moment captured with you feels like a beautiful dream I never want to wake up from. ❤️
+</p>
+
+<div class="btn-group">
+    <button class="btn-secondary" onclick="go(5)">← Back</button>
+    <button onclick="go(8)">One last thing… →</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- PAGE 8 : QUESTION -->
+<!-- ========================= -->
+
+<section class="page" id="p8">
+
+<div class="card">
+
+<h2>One Last Question ❤️</h2>
+
+<p>
+After everything we've been through…
+
+Would you choose me again?
+</p>
+
+<div class="question-container">
+    <button onclick="go(9)">
+    YES ❤️
+    </button>
+
+    <button id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">
+    NO 💔
+    </button>
+</div>
+
+<div class="btn-group">
+    <button class="btn-secondary" onclick="go(6)">← Back</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- PAGE 9 : FINAL -->
+<!-- ========================= -->
+
+<section class="page" id="p9">
+
+<div class="card">
+
+<div class="heart">❤️</div>
+
+<h1>3 Years.</h1>
+<h2>And I still choose you.</h2>
+
+<p>
+It all started with a simple moment, a simple touch, a simple hand held by the person who would eventually become my whole world.
+
+Three years later, my feelings haven't become smaller they've grown stronger than ever you think. Through every laugh, every argument, every goodbye, every call, and every moment we missed each other, my love for you only became deeper.
+
+Rahnumaa, you are not just my favorite person. You are my comfort, my happiness, my peace, and the most beautiful part of my life.
+
+No matter how many years pass, no matter where life takes us, I promise that my heart will always find its way back to you. I will keep choosing you, loving you, caring for you, and standing beside you through everything.
+
+Thank you for these beautiful three years, my wifeeyyy, my best friend, my everything. The most beautiful women in the universe
+
+I Loveeeeeeeeeeeee Youuuuuuu Forever Ever And Ever ❤️
+</p>
+
+<div class="media">
+    <img src="final_photo.jpg" alt="">
+</div>
+
+<p class="small">
+Made with love by Mahir
+</p>
+
+<div class="btn-group">
+    <button class="btn-secondary" onclick="go(8)">← Back</button>
+</div>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* ========================= */
+/* AUDIO & NAVIGATION SETUP  */
+/* ========================= */
+
+const PASSWORD = "happy 3 years";
+let current = 0;
+let musicStarted = false;
+
+function playAudio() {
+    const music = document.getElementById("bg-music");
+    if (!musicStarted && music) {
+        music.play().then(() => {
+            musicStarted = true;
+        }).catch(err => {
+            console.log("Audio playback waiting for interaction: ", err);
+        });
+    }
+}
+
+function startExperience(targetPage) {
+    playAudio();
+    go(targetPage);
+}
+
+function go(page) {
+    if (page < 0 || page > 9) return;
+
+    document.querySelectorAll(".page").forEach(function(p) {
+        p.classList.remove("active");
+    });
+
+    document.getElementById("p" + page).classList.add("active");
+    current = page;
+
+    if (page === 6 && !slideshowInterval) {
+        startSlideshow();
+    }
+}
+
+function unlock() {
+    playAudio();
+    const entered = document.getElementById("password").value;
+    if (entered === PASSWORD) {
+        document.getElementById("error").textContent = "";
+        go(2);
+    } else {
+        document.getElementById("error").textContent = "Wrong password ❤️ Try again.";
+    }
+}
+
+function reveal(id) {
+    const element = document.getElementById(id);
+    if (element.style.display === "block") {
+        element.style.display = "none";
+    } else {
+        element.style.display = "block";
+    }
+}
+
+function openLetter() {
+    document.getElementById("letterTrigger").style.display = "none";
+    document.getElementById("letterContent").style.display = "block";
+}
+
+function moveNoButton() {
+    const btn = document.getElementById("noBtn");
+    const x = Math.floor(Math.random() * 240) - 120;
+    const y = Math.floor(Math.random() * 160) - 80;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+
+/* ========================================= */
+/* SLIDESHOW SYSTEM                          */
+/* ========================================= */
+
+let slideIndex = 0;
+let slideshowInterval = null;
+let isPlaying = false;
+
+const dotsContainer = document.getElementById("dotsContainer");
+const slides = document.querySelectorAll(".slide");
+
+slides.forEach((_, idx) => {
+    const dot = document.createElement("div");
+    dot.classList.add("dot");
+    if (idx === 0) dot.classList.add("active");
+    dotsContainer.appendChild(dot);
+});
+
+const dots = document.querySelectorAll(".dot");
+
+function showSlide(index) {
+    slides.forEach(s => s.classList.remove("active"));
+    dots.forEach(d => d.classList.remove("active"));
+
+    slides[index].classList.add("active");
+    dots[index].classList.add("active");
+}
+
+function nextSlide() {
+    slideIndex = (slideIndex + 1) % slides.length;
+    showSlide(slideIndex);
+}
+
+function startSlideshow() {
+    if (!slideshowInterval) {
+        slideshowInterval = setInterval(nextSlide, 4040);
+        isPlaying = true;
+        document.getElementById("playPauseBtn").textContent = "⏸";
+    }
+}
+
+function toggleSlideshow() {
+    if (isPlaying) {
+        clearInterval(slideshowInterval);
+        slideshowInterval = null;
+        isPlaying = false;
+        document.getElementById("playPauseBtn").textContent = "▶";
+    } else {
+        startSlideshow();
+    }
+}
+
+</script>
+
+</body>
+</html>
